@@ -1,28 +1,26 @@
-#ifndef HEADER_H
-#define HEADER_H
+#include<iostream>
+#include<stdlib.h>
+#include<conio.h>
+#include<malloc.h>
 
-struct Node {
-    int data;
-    Node* prev;
-    Node* next;
+
+using namespace std;
+
+typedef struct TNode *head;
+
+struct TNode{
+	int data;
+	TNode *next;
+	TNode *prev;
 };
 
-class DoubleLinkedList {
-private:
-    Node* head;
-    Node* tail;
+void insertDepan(head &L, int databaru);
+void insertBelakang(head &L, int databaru);
+void hapusDepan(head &L);
+void hapusBelakang(head &L);
+void clear(head &L);
+void tampil(head &L);
+void tampilReverse(head &L);
+int hitungNode(head &L);
 
-public:
-    DoubleLinkedList();
-    ~DoubleLinkedList();
-    void append(int data);
-    void prepend(int data);
-    void deleteFront();
-    void deleteBack();
-    void display();
-    void displayFromTail();
-    void clear();
-    int countNodes();
-};
 
-#endif
