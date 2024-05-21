@@ -1,105 +1,126 @@
-#include <iostream>
 #include "header.h"
 
-using namespace std;
-
-DoubleLinkedList::DoubleLinkedList() : head(0), tail(0) {}
-
-DoubleLinkedList::~DoubleLinkedList() {
-    clear();
+int isEmpty(head &L) {
+    return L == NULL;
 }
 
-void DoubleLinkedList::append(int data) {
-    Node* newNode = new Node{data, 0, 0};
-    if (!head) {
-        head = tail = newNode;
+void insertDepan(head &L, int databaru) {
+    head baru = (head)malloc(sizeof(TNode));
+    baru->data = databaru;
+    baru->next = NULL;
+    baru->prev = NULL;
+    if (L == NULL) {
+        L = baru;
     } else {
-        tail->next = newNode;
-        newNode->prev = tail;
-        tail = newNode;
+        baru->next = L;
+        L->prev = baru;
+        L = baru;
     }
 }
 
-void DoubleLinkedList::prepend(int data) {
-    Node* newNode = new Node{data, 0, 0};
-    if (!head) {
-        head = tail = newNode;
+void insertBelakang(head &L, int databaru) {
+    head baru = (head)malloc(sizeof(TNode));
+    baru->data = databaru;
+    baru->next = NULL;
+    baru->prev = NULL;
+    if (L == NULL) {
+        L = baru;
     } else {
-        newNode->next = head;
-        head->prev = newNode;
-        head = newNode;
+        head bantu = L;
+        while (bantu->next != NULL) {
+            bantu = bantu->next;
+        }
+        bantu->next = baru;
+        baru->prev = bantu;
     }
 }
 
-void DoubleLinkedList::deleteFront() {
-    if (!head) return; // List is empty
-    Node* temp = head;
-    head = head->next;
-    if (head) {
-        head->prev = 0;
+void tampil(head &L) {
+    head bantu = L;
+    if (L != NULL) {
+        while (bantu != NULL) {
+            cout << bantu->data << " - ";
+            bantu = bantu->next;
+        }
+        cout << endl;
     } else {
-        tail = 0;
+        cout << "Data Masih Kosong" << endl;
     }
-    delete temp;
 }
 
-void DoubleLinkedList::deleteBack() {
-    if (!tail) return; // List is empty
-    Node* temp = tail;
-    tail = tail->prev;
-    if (tail) {
-        tail->next = 0;
+void tampilReverse(head &L) {
+    if (L != NULL) {
+        head bantu = L;
+        while (bantu->next != NULL) {
+            bantu = bantu->next;
+        }
+        while (bantu != NULL) {
+            cout << bantu->data << " - ";
+            bantu = bantu->prev;
+        }
+        cout << endl;
     } else {
-        head = 0;
+        cout << "Data Masih Kosong" << endl;
     }
-    delete temp;
 }
 
-void DoubleLinkedList::display() {
-    if (!head) {
-        cout << "List is empty." << endl;
-        return;
-    }
-
-    Node* current = head;
-    while (current) {
-        cout << current->data << " ";
-        current = current->next;
-    }
-    cout << endl;
-}
-
-void DoubleLinkedList::displayFromTail() {
-    if (!tail) {
-        cout << "List is empty." << endl;
-        return;
-    }
-
-    Node* current = tail;
-    while (current) {
-        cout << current->data << " ";
-        current = current->prev;
-    }
-    cout << endl;
-}
-
-void DoubleLinkedList::clear() {
-    Node* current = head;
-    while (current) {
-        Node* next = current->next;
-        delete current;
-        current = next;
-    }
-    head = tail = 0;
-}
-
-int DoubleLinkedList::countNodes() {
+int hitungNode(head &L) {
     int count = 0;
-    Node* current = head;
-    while (current) {
+    head bantu = L;
+    while (bantu != NULL) {
         count++;
-        current = current->next;
+        bantu = bantu->next;
     }
     return count;
+}
+
+void hapusDepan(head &L) {
+    if (L != NULL) {
+        head hapus = L;
+        if (L->next != NULL) {
+            L = L->next;
+            L->prev = NULL;
+        } else {
+            L = NULL;
+        }
+        free(hapus);
+        cout << "Data Terhapus" << endl;
+    } else {
+        cout << "Data Masih Kosong" << endl;
+    }
+}
+
+void hapusBelakang(head &L) {
+    if (L != NULL) {
+        head hapus;
+        if (L->next == NULL) {
+            hapus = L;
+            L = NULL;
+        } else {
+            head bantu = L;
+            while (bantu->next->next != NULL) {
+                bantu = bantu->next;
+            }
+            hapus = bantu->next;
+            bantu->next = NULL;
+        }
+        free(hapus);
+        cout << "Data Terhapus" << endl;
+    } else {
+        cout << "Data Masih Kosong" << endl;
+    }
+}
+
+void clear(head &L) {
+    head hapus, bantu;
+    bantu = L;
+    
+    while (bantu != NULL) {
+        hapus = bantu;
+        bantu = bantu->next;
+        free(hapus);
+    }
+    L = NULL;
+    cout << "Semua data berhasil dihapus" << endl;
 }
 
